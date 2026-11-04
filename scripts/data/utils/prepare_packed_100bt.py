@@ -22,15 +22,14 @@ import pyarrow as pa
 import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
-EXP_DIR = Path(__file__).resolve().parents[3]
-PARCAE_DIR = EXP_DIR
-sys.path.insert(0, str(PARCAE_DIR))
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(PROJECT_ROOT))
 
 from loopedlm.tokenizer import Tokenizer  # noqa: E402
 
-DEFAULT_SOURCE_ROOT = EXP_DIR / "data" / "100bt_tokenized"
-DEFAULT_OUTPUT_ROOT = EXP_DIR / "data" / "100bt_packed_2049"
-DEFAULT_TOKENIZER_PATH = EXP_DIR / "tokenizer" / "parcae_tokenizer"
+DEFAULT_SOURCE_ROOT = PROJECT_ROOT / "data" / "100bt_tokenized"
+DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "data" / "100bt_packed_2049"
+DEFAULT_TOKENIZER_PATH = PROJECT_ROOT / "tokenizer" / "parcae_tokenizer"
 PACK_DTYPE = np.dtype("<u2")
 TOKEN_COLUMN = "input_ids"
 

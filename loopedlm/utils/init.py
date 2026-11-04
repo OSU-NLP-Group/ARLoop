@@ -299,7 +299,7 @@ class Init:
 
     All biases are always initialized to zero, this just handles weights.
 
-    Subclasses (GPTInit, ParcaeInit) should override `_get_layer_init` to add
+    Subclasses should override `_get_layer_init` to add
     model-specific initialization logic.
     """
 

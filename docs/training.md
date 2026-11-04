@@ -23,7 +23,7 @@ ARLoop-1.2B experiments.
 The model architecture uses transformer blocks with grouped-query attention
 and SwiGLU as the feed-forward sublayer.
 Following Parcae and nanochat, we use value embeddings shared across physical layers.
-The context length is 4096. The vocabulary size is 32768.
+The context length is 4096. The vocabulary size is 49152.
 We train on a mixture of pretraining sources with a cosine LR scheduler. The global batch size is 256 for ARLoop-0.6B and 512 for ARLoop-1.2B.
 
 To train a model, run:

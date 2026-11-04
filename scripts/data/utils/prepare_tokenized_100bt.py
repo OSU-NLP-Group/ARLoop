@@ -19,17 +19,16 @@ import pyarrow.parquet as pq
 import torch
 from torch.utils.data import DataLoader
 
-EXP_DIR = Path(__file__).resolve().parents[3]
-PARCAE_DIR = EXP_DIR
-sys.path.insert(0, str(PARCAE_DIR))
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(PROJECT_ROOT))
 
 from loopedlm.tokenizer import Tokenizer  # noqa: E402
 from scripts.data.utils.packing_reference import BestFitPackingCollator  # noqa: E402
 from scripts.data.utils.parquet_reference import ParquetStreamPure  # noqa: E402
 
-DEFAULT_SOURCE_ROOT = EXP_DIR / "data" / "fineweb_edu_100bt_shuffled_r8"
-DEFAULT_OUTPUT_ROOT = EXP_DIR / "data" / "100bt_tokenized"
-DEFAULT_TOKENIZER_PATH = EXP_DIR / "tokenizer" / "parcae_tokenizer"
+DEFAULT_SOURCE_ROOT = PROJECT_ROOT / "data" / "fineweb_edu_100bt_shuffled_r8"
+DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "data" / "100bt_tokenized"
+DEFAULT_TOKENIZER_PATH = PROJECT_ROOT / "tokenizer" / "parcae_tokenizer"
 TOKEN_SCHEMA = pa.schema([pa.field("input_ids", pa.list_(pa.int32()))])
 
 

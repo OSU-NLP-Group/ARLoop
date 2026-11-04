@@ -24,9 +24,8 @@ import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
 
-EXP_DIR = Path(__file__).resolve().parents[3]
-PARCAE_DIR = EXP_DIR
-sys.path.insert(0, str(PARCAE_DIR))
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(PROJECT_ROOT))
 
 
 TOKEN_SCHEMA = pa.schema([pa.field("input_ids", pa.list_(pa.int32()))])
