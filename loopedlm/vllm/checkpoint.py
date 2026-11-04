@@ -73,7 +73,7 @@ def build_vllm_config(
                 "Standard ARLoop vLLM loading currently requires BaseMLP + ReLU2"
             )
 
-    exported = {
+    result = {
         "architectures": ["LargeScaleARLoopForCausalLM"],
         # Using a built-in config type lets AutoConfig parse the directory. The
         # architecture still dispatches to our registered vLLM model.
@@ -84,7 +84,7 @@ def build_vllm_config(
         "num_key_value_heads": int(config.num_key_value_heads),
         "head_dim": head_dim,
         "num_hidden_layers": effective_layers,
-        "parcae_n_layer": physical_layers,
+        "arloop_n_layer": physical_layers,
         "loop_count": loop_count,
         "effective_sublayers": 2 * effective_layers,
         "vocab_size": int(config.vocab_size),
@@ -99,7 +99,7 @@ def build_vllm_config(
         "rope_condense_ratio": int(config.rope_settings.rope_condense_ratio),
         "rms_norm_eps": float(config.norm_eps),
         "hidden_act": "silu" if is_largescale else "relu2",
-        "parcae_mlp_type": "swiglu" if is_largescale else "base_relu2",
+        "arloop_mlp_type": "swiglu" if is_largescale else "base_relu2",
         "attention_bias": bool(config.bias),
         "qk_bias": bool(config.qk_bias),
         "qk_norm": bool(config.qk_norm),
@@ -118,13 +118,13 @@ def build_vllm_config(
         "torch_dtype": "bfloat16",
         "dtype": "bfloat16",
         "transformers_version": "5.0.0",
-        "parcae_model_name": raw.get("name"),
-        "parcae_model_class": raw.get("model_class_name"),
+        "arloop_model_name": raw.get("name"),
+        "arloop_model_class": raw.get("model_class_name"),
     }
     for key in ("bos_token_id", "eos_token_id", "pad_token_id"):
         if special_tokens.get(key) is not None:
-            exported[key] = special_tokens[key]
-    return exported
+            result[key] = special_tokens[key]
+    return result
 
 
 def load_checkpoint_state(checkpoint: Path) -> dict[str, torch.Tensor]:

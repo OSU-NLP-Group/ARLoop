@@ -24,7 +24,7 @@ def _pad_ptr_table(
 
 
 @torch.library.custom_op(
-    "parcae::fla_attnres_indexed_forward_ckpt1",
+    "arloop::fla_attnres_indexed_forward_ckpt1",
     mutates_args=(),
     device_types="cuda",
 )
@@ -277,7 +277,7 @@ def _attnres_bwd_kernel_dv_indexed(
 
 
 @torch.library.custom_op(
-    "parcae::fla_attnres_backward_indexed",
+    "arloop::fla_attnres_backward_indexed",
     mutates_args={"grad_history"},
     device_types="cuda",
 )
@@ -407,7 +407,7 @@ def _fla_attnres_backward_indexed_fake(
 
 
 @torch.library.custom_op(
-    "parcae::fla_attnres_backward_indexed_owner",
+    "arloop::fla_attnres_backward_indexed_owner",
     mutates_args={"grad_slots"},
     device_types="cuda",
 )

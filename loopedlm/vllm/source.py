@@ -14,7 +14,7 @@ from .checkpoint import (
 
 def add_source_arguments(parser):
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--model", help="HF repo ID, local HF model, or existing vLLM export")
+    group.add_argument("--model", help="ARLoop HF repo ID or local HF model directory")
     group.add_argument("--run-dir", type=Path, help="Native training run with model_config.json")
     parser.add_argument("--checkpoint", type=Path, help="Native checkpoint; defaults to the latest in run-dir")
     parser.add_argument("--revision", help="HF branch, tag, or commit")
@@ -55,12 +55,7 @@ def model_source(args):
         candidate = local_path(requested)
         folder = load_hf_source(str(candidate) if candidate.is_dir() else requested, args.revision)
         raw = json.loads((folder / "config.json").read_text())
-        if raw.get("model_type") == "arloop":
-            config = build_hf_vllm_config(raw)
-        elif raw.get("architectures") == ["LargeScaleARLoopForCausalLM"]:
-            config = raw.copy()
-        else:
-            raise ValueError("Expected an ARLoop HF model or an existing ARLoop vLLM export")
+        config = build_hf_vllm_config(raw)
         tokenizer_path = folder
         source = {"kind": "hf", "path": str(folder.resolve())}
     config["arloop_weight_source"] = source

@@ -41,13 +41,8 @@ mkdir -p \
   "$runtime_root/wandb/data" \
   "$runtime_root/huggingface" \
   "$runtime_root/torchelastic"
-# The official 1.2B/500B run uploads metrics; other configs default to offline.
-# An explicit WANDB_MODE always takes precedence.
-wandb_default_mode=offline
-if [[ "$config" == "$repo_root/configs/mixed_data/1p2b_arloop_r3_500b.yaml" ]]; then
-  wandb_default_mode=online
-fi
-export WANDB_MODE="${WANDB_MODE:-$wandb_default_mode}"
+# Set WANDB_MODE=online to upload metrics.
+export WANDB_MODE="${WANDB_MODE:-offline}"
 export WANDB_ERROR_REPORTING=false
 export WANDB_SILENT="${WANDB_SILENT:-true}"
 export WANDB_CACHE_DIR="$runtime_root/wandb/cache"
@@ -68,8 +63,8 @@ if [[ -d "$fla_vendor/fla" ]]; then
 else
   export PYTHONPATH="$repo_root${PYTHONPATH:+:$PYTHONPATH}"
 fi
-export PARCAE_DEVICES="$gpus_per_node"
-export PARCAE_NUM_NODES="$num_nodes"
+export ARLOOP_DEVICES="$gpus_per_node"
+export ARLOOP_NUM_NODES="$num_nodes"
 
 extra_args=()
 if [[ $# -gt 2 ]]; then

@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from recpre.utils import LightningFabric, SimpleFabric
     Fabric = LightningFabric | SimpleFabric
 
-VALIDATION_BATCH_CACHE_DIR_ENV = "PARCAE_VALIDATION_BATCH_CACHE_DIR"
+VALIDATION_BATCH_CACHE_DIR_ENV = "ARLOOP_VALIDATION_BATCH_CACHE_DIR"
 DEFAULT_VALIDATION_BATCH_CACHE_DIR = PROJECT_ROOT / ".runtime" / "validation_batch_cache"
 
 def get_validation_batch_cache_path(cfg: CLISettings, fabric: Fabric) -> Optional[Path]:

@@ -52,7 +52,7 @@ def main() -> None:
         return
     if not args.generation_only and not args.allow_code_execution:
         raise SystemExit(
-            "EvalPlus executes generated Python. Use the isolated, network-disabled container and "
+            "EvalPlus executes generated Python. Use an isolated, network-disabled environment and "
             "pass --allow-code-execution, or pass --generation-only."
         )
 

@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 import torch
 
-_VALIDATION_BATCH_CACHE_ATTR = "_parcae_validation_batch_cache"
-_VALIDATION_BATCH_CACHE_SOURCE_ATTR = "_parcae_validation_batch_cache_source"
+_VALIDATION_BATCH_CACHE_ATTR = "_arloop_validation_batch_cache"
+_VALIDATION_BATCH_CACHE_SOURCE_ATTR = "_arloop_validation_batch_cache_source"
 _VALIDATION_BATCH_CACHE_VERSION = 2
 
 

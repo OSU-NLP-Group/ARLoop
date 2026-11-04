@@ -7,7 +7,7 @@ import torch
 from torch.utils.checkpoint import checkpoint
 
 from loopedlm.models.arloop.base import ARLoopBase
-from loopedlm.utils.cache import ParcaeDynamicCache
+from loopedlm.utils.cache import ARLoopDynamicCache
 
 
 def _load_fla_attnres():
@@ -135,7 +135,7 @@ class AttnResFLAFusedNorm(AttnResFLASoftmax):
         input_ids: torch.Tensor,
         freqs_cis: torch.Tensor,
         attention_mask: Optional[torch.Tensor],
-        past_key_values: Optional[ParcaeDynamicCache],
+        past_key_values: Optional[ARLoopDynamicCache],
     ) -> torch.Tensor:
         effective_layer_idx = sublayer_idx // 2
         loop_idx = effective_layer_idx // self.config.n_layer
@@ -165,7 +165,7 @@ class AttnResFLAFusedNorm(AttnResFLASoftmax):
         input_ids: torch.Tensor,
         freqs_cis: torch.Tensor,
         attention_mask: Optional[torch.Tensor],
-        past_key_values: Optional[ParcaeDynamicCache],
+        past_key_values: Optional[ARLoopDynamicCache],
         *values: torch.Tensor,
     ) -> torch.Tensor:
         block = self.transformer.h[(sublayer_idx // 2) % self.config.n_layer]
@@ -181,7 +181,7 @@ class AttnResFLAFusedNorm(AttnResFLASoftmax):
         input_embeds: torch.Tensor,
         freqs_cis: torch.Tensor,
         attention_mask: Optional[torch.Tensor],
-        past_key_values: Optional[ParcaeDynamicCache] = None,
+        past_key_values: Optional[ARLoopDynamicCache] = None,
         return_hidden_states: bool = False,
         hidden_state_layers: Optional[list[int]] = None,
         return_loop_hidden_states: bool = False,
@@ -323,7 +323,7 @@ class AttnResFLAIndexedBackward(AttnResFLAFusedNorm):
         input_embeds: torch.Tensor,
         freqs_cis: torch.Tensor,
         attention_mask: Optional[torch.Tensor],
-        past_key_values: Optional[ParcaeDynamicCache] = None,
+        past_key_values: Optional[ARLoopDynamicCache] = None,
         return_hidden_states: bool = False,
         hidden_state_layers: Optional[list[int]] = None,
         return_loop_hidden_states: bool = False,

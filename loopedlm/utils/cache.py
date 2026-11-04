@@ -49,7 +49,7 @@ class KVCache(nn.Module):
         return self.seq_len
 
 
-class ParcaeDynamicCache(DynamicCache):
+class ARLoopDynamicCache(DynamicCache):
 
     def __init__(
         self,

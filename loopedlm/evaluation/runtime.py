@@ -10,11 +10,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 def configure_evaluation_runtime(*, online: bool = False) -> Path:
     """Set cache paths before importing benchmark packages.
 
-    The prebuilt image points ``ATTNRES_EVAL_CACHE_DIR`` at its baked-in
-    assets. A source checkout without that variable retains the project-local
-    cache behavior.
+    ``ARLOOP_EVAL_CACHE_DIR`` overrides the default project-local
+    ``.runtime/evaluation`` cache directory.
     """
-    configured_runtime = os.environ.get("ATTNRES_EVAL_CACHE_DIR")
+    configured_runtime = os.environ.get("ARLOOP_EVAL_CACHE_DIR")
     runtime = (
         Path(configured_runtime).expanduser().resolve()
         if configured_runtime

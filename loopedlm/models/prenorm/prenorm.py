@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from loopedlm.models.prenorm.config import PreNormConfig
 from loopedlm.modules.utils import precompute_freqs_cis
 from loopedlm.modules.mixer import has_ve
-from loopedlm.utils.cache import ParcaeDynamicCache
+from loopedlm.utils.cache import ARLoopDynamicCache
 
 
 class PreNorm(torch.nn.Module):
@@ -109,7 +109,7 @@ class PreNorm(torch.nn.Module):
         freqs_cis: torch.Tensor,
         attention_mask: Optional[torch.Tensor],
         loop_idx: int,
-        past_key_values: Optional[ParcaeDynamicCache] = None,
+        past_key_values: Optional[ARLoopDynamicCache] = None,
     ) -> torch.Tensor:
         for i, block in enumerate(self.transformer.h):
             ve = self.value_embeds[str(i)](input_ids) if str(i) in self.value_embeds else None
@@ -249,8 +249,8 @@ class PreNorm(torch.nn.Module):
             "loop_hidden_states": loop_hidden_states if return_loop_hidden_states else None,
         }
 
-    def create_cache(self, lookup_strategy: str = "full") -> ParcaeDynamicCache:
-        return ParcaeDynamicCache(
+    def create_cache(self, lookup_strategy: str = "full") -> ARLoopDynamicCache:
+        return ARLoopDynamicCache(
             lookup_strategy=lookup_strategy,
             core_step_range=(0, self._eval_loop_count() * self.config.n_layer),
             n_core=self.config.n_layer,
@@ -276,7 +276,7 @@ class PreNorm(torch.nn.Module):
         self,
         input_ids: torch.Tensor,
         attention_mask: Optional[torch.Tensor] = None,
-        past_key_values: Optional[ParcaeDynamicCache] = None,
+        past_key_values: Optional[ARLoopDynamicCache] = None,
         **kwargs,
     ) -> dict[str, Any]:
         seq_len = input_ids.shape[1]

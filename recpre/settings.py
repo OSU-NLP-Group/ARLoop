@@ -154,7 +154,7 @@ class CLISettings:
     # Logging
     logger_name: str = "wandb"
     logger_entity: str = ""
-    logger_project: str = "parcae"
+    logger_project: str = "arloop"
     logger_group: Optional[str] = None
     model_telemetry: bool = True  # Whether to monitor important model values to look for spikes. May increase overhead
     extreme_telemetry: bool = False  # Enable expensive metrics like adapter spectral norms. Only computed when model_telemetry is also True.
@@ -316,11 +316,11 @@ class CLISettings:
         self.RANK = int(os.getenv("SLURM_PROCID", "0"))
         self.devices = int(
             os.getenv(
-                "PARCAE_DEVICES",
+                "ARLOOP_DEVICES",
                 os.getenv("SLURM_NTASKS_PER_NODE", os.getenv("LOCAL_WORLD_SIZE", torch.cuda.device_count())),
             )
         )
-        self.num_nodes = int(os.getenv("PARCAE_NUM_NODES", os.getenv("SLURM_JOB_NUM_NODES", 1)))
+        self.num_nodes = int(os.getenv("ARLOOP_NUM_NODES", os.getenv("SLURM_JOB_NUM_NODES", 1)))
 
     def _validate_data_config(self) -> dict[str, list[DataEntry]]:
         if isinstance(self.data_config, str):

@@ -100,7 +100,7 @@ class CausalSelfAttention(torch.nn.Module):
             if self.layer_id == kv_cache.n_layers - 1:
                 kv_cache.advance(T)
         elif past_key_values is not None and step_idx is not None:
-            # ParcaeDynamicCache: cache expects (B, H, S, D) layout
+            # ARLoopDynamicCache: cache expects (B, H, S, D) layout
             k_for_cache = k.transpose(1, 2)
             v_for_cache = v.transpose(1, 2)
             k_cached, v_cached = past_key_values.update(k_for_cache, v_for_cache, step_idx)

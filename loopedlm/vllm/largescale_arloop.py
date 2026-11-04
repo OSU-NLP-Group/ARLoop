@@ -34,7 +34,7 @@ from loopedlm.vllm.routing import attnres_route
 
 
 class LargeScaleARLoopRMSNorm(nn.Module):
-    """Parcae RMSNorm semantics, including FP32 statistics."""
+    """ARLoop RMSNorm semantics, including FP32 statistics."""
 
     def __init__(self, hidden_size: int, eps: float) -> None:
         super().__init__()
@@ -53,9 +53,9 @@ class LargeScaleARLoopRMSNorm(nn.Module):
 class LargeScaleARLoopMLP(nn.Module):
     def __init__(self, config: Any) -> None:
         super().__init__()
-        self.mlp_type = getattr(config, "parcae_mlp_type", "swiglu")
+        self.mlp_type = getattr(config, "arloop_mlp_type", "swiglu")
         if self.mlp_type not in {"swiglu", "base_relu2"}:
-            raise ValueError(f"Unsupported Parcae vLLM MLP type: {self.mlp_type}")
+            raise ValueError(f"Unsupported ARLoop vLLM MLP type: {self.mlp_type}")
         fc_multiplier = 2 if self.mlp_type == "swiglu" else 1
         self.fc = nn.Linear(
             config.hidden_size,
@@ -91,7 +91,7 @@ class LargeScaleARLoopProjection(nn.Module):
         self.qk_norm = config.qk_norm
         self.qk_bias_enabled = config.qk_bias
         physical_layer_count = int(
-            getattr(config, "parcae_n_layer", config.num_hidden_layers)
+            getattr(config, "arloop_n_layer", config.num_hidden_layers)
         )
         self.use_value_embeddings = bool(config.use_value_embeddings) and (
             layer_idx % 2 == (physical_layer_count - 1) % 2
@@ -214,14 +214,14 @@ class LargeScaleARLoopForCausalLM(nn.Module):
             raise ValueError("randomize_positions_from is a training-only option and must be disabled")
 
         self.config = config
-        self.physical_layer_count = int(config.parcae_n_layer)
+        self.physical_layer_count = int(config.arloop_n_layer)
         self.loop_count = int(config.loop_count)
         self.effective_layer_count = self.physical_layer_count * self.loop_count
         expected_sublayers = 2 * self.effective_layer_count
         if int(config.effective_sublayers) != expected_sublayers:
             raise ValueError(
                 f"effective_sublayers={config.effective_sublayers} does not match "
-                f"2 * loop_count * parcae_n_layer={expected_sublayers}"
+                f"2 * loop_count * arloop_n_layer={expected_sublayers}"
             )
         if int(config.num_hidden_layers) != self.effective_layer_count:
             raise ValueError(

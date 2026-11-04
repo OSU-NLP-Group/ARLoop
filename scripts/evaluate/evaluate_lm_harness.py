@@ -64,8 +64,8 @@ def main() -> None:
     unsafe_tasks = {"mbpp", "humaneval", "mbpp_plus", "humaneval_plus"}
     if unsafe_tasks.intersection(tasks) and not args.allow_code_execution:
         raise SystemExit(
-            "MBPP/HumanEval execute generated Python. Re-run inside the isolated evaluation "
-            "container with --allow-code-execution."
+            "MBPP/HumanEval execute generated Python. Re-run in an isolated, network-disabled "
+            "environment with --allow-code-execution."
         )
     if args.allow_code_execution:
         os.environ["HF_ALLOW_CODE_EVAL"] = "1"

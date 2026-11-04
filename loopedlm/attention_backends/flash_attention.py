@@ -49,11 +49,11 @@ def _load_flash_attention_3():
 _fa3 = _load_flash_attention_3()
 HAS_FA3 = _fa3 is not None
 
-# Set PARCAE_FLASH_ATTN_IMPL=fa3 to require FA3 or sdpa to disable it.
-_override_impl = os.getenv("PARCAE_FLASH_ATTN_IMPL") or None
+# Set ARLOOP_FLASH_ATTN_IMPL=fa3 to require FA3 or sdpa to disable it.
+_override_impl = os.getenv("ARLOOP_FLASH_ATTN_IMPL") or None
 if _override_impl not in {None, "fa3", "sdpa"}:
     raise ValueError(
-        "PARCAE_FLASH_ATTN_IMPL must be unset, 'fa3', or 'sdpa', "
+        "ARLOOP_FLASH_ATTN_IMPL must be unset, 'fa3', or 'sdpa', "
         f"got {_override_impl!r}"
     )
 
