@@ -141,31 +141,25 @@ Results go to `results/arloop_control.json`.
 
 ### Reproducing realistic pretraining experiments
 
-Evaluation uses vLLM by default and loads the original weights directly, without
-exporting another checkpoint. Run all eight benchmarks on `osunlp/ARLoop-1.2B`:
+Evaluation uses vLLM by default and loads the original weights directly. Run all eight benchmarks on `osunlp/ARLoop-1.2B` as below.
+This evaluates ARC-Challenge (25-shot), HellaSwag (10-shot), WinoGrande (5-shot),
+OpenBookQA (0-shot), GSM8K (5-shot), Minerva MATH (4-shot), MBPP (0-shot)
+and HumanEval (0-shot), including EvalPlus base/plus scores.
 
 ```bash
 python scripts/evaluate/evaluate_all_benchmarks_vllm.py --allow-code-execution
 ```
 
 Use `--model` for another HF repository or local HF directory, and `--revision`
-for a specific HF checkpoint. To evaluate a native training checkpoint:
+for a specific HF checkpoint. 
+
+To evaluate a native training checkpoint:
 
 ```bash
 python scripts/evaluate/evaluate_all_benchmarks_vllm.py \
-  --checkpoint /path/to/run/checkpoints-DDPStrategy/step-XXXXXXXX \
+  --checkpoint /path/to/run/checkpoints/step-XXXXXXXX \
   --allow-code-execution
 ```
-
-The training run directory is inferred from the checkpoint location, and the
-tokenizer path is read from `run_config.json`. Native input must be a single
-checkpoint file, not an FSDP shard directory.
-
-This runs ARC-Challenge (25-shot), HellaSwag (10-shot), WinoGrande (5-shot),
-OpenBookQA (0-shot), GSM8K (5-shot), Minerva MATH (4-shot), MBPP (0-shot)
-and HumanEval (0-shot), including EvalPlus base/plus scores. Use
-`--generation-only` instead of `--allow-code-execution` to save code samples
-without executing them.
 
 To evaluate an individual harness task:
 
