@@ -1,0 +1,15 @@
+group: arloop_controlled
+task:
+- arc_challenge
+- arc_easy
+- hellaswag
+- lambada_openai
+- lambada_standard
+- openbookqa
+- piqa
+- race
+- sciq
+- winogrande
+metadata:
+  version: 1
+  description: 'Paper controlled experiments: ten zero-shot tasks'

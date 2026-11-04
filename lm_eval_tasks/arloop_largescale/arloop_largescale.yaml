@@ -1,0 +1,19 @@
+group: arloop_largescale
+group_alias: ARLoop large-scale evaluation
+task:
+  - task: arc_challenge
+    fewshot_split: train
+    num_fewshot: 25
+  - task: hellaswag
+    fewshot_split: train
+    num_fewshot: 10
+  - task: winogrande
+    fewshot_split: train
+    num_fewshot: 5
+  - task: openbookqa
+    num_fewshot: 0
+  - task: gsm8k_cot
+    num_fewshot: 5
+  - minerva_math  # All seven subject tasks default to 4-shot.
+metadata:
+  version: 1

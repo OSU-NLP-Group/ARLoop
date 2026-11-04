@@ -1,0 +1,113 @@
+run_name: 370m_arloop_sw_r2
+out_dir: outputs/370m_arloop_sw_r2
+resume: false
+resume_checkpoint_path: null
+resume_model_only: false
+resume_data_state: true
+resume_wandb_run: false
+resume_use_checkpoint_out_dir: false
+max_tokens: 29600000000
+max_steps: null
+max_flops: null
+token_to_param_ratio: null
+exit_at_step: null
+seed: 42
+model_name: arloop-medium-370m
+model_impl: dynamic
+block_size: 2048
+ignore_block_size_mismatch: false
+model_checkpoint: null
+world_batch_size: 256
+batch_size_ramp: 0
+optimizer: AdamW
+optim_config:
+  lr: 0.004
+  weight_decay: 0.1
+  betas:
+  - 0.9
+  - 0.95
+  eps: 1.0e-08
+grad_clip: 1.0
+warmup_steps: 1000.0
+cooldown_steps: 0.0
+lr_schedule: cosine
+min_lr: 6.0e-05
+no_weight_decay_for_bias_and_norm_params: false
+loss_ignore_index: -100
+label_smoothing: 0.0
+z_regularization: 0.0
+fabric_strategy: ddp
+fabric_precision: bf16-mixed
+fabric_use_lightning_environment: false
+fabric:
+  optimize_communication: false
+  all_reduce_dtype: null
+  ddp_find_unused_parameters: true
+  ddp_static_graph: false
+  ddp_gradient_as_bucket_view: false
+  ddp_bucket_cap_mb: null
+  row_tensor_parallel_size: 1
+  col_tensor_parallel_size: 1
+  depth_tensor_parallel_size: 1
+micro_batch_size: 16
+compile_model: true
+compile_backend: inductor
+compile_mode: default
+compile_fullgraph: false
+compile_dynamic: false
+matmul_precision: high
+dataloader_num_workers: 0
+gradient_checkpointing: false
+allow_nonfinite_loss: false
+compiled_autograd: false
+compile_optimizer: false
+drop_unused_tied_lm_head: false
+dynamo_ddp_config: ddp_optimizer
+skip_nonfinite_grads: true
+fail_instead_of_recompile: false
+logger_name: wandb
+logger_entity: ''
+logger_project: arloop
+logger_group: 370m_arloop_sw_r2
+model_telemetry: true
+extreme_telemetry: false
+shape_watching_steps: 3
+log_step_interval: 1
+eval_iters: 16
+eval_num_sequences: 4096
+eval_precision: same
+cache_validation_batches: true
+validation_batch_cache_dir: null
+save_step_interval: 3000
+eval_step_interval: 256
+save_first_step: false
+save_last_step: true
+save_n_min_before_job_done: null
+max_checkpoints_to_keep: 3
+measure_utilization: true
+shuffle_filenames: true
+shuffle_blocks: true
+packed_sequence_shuffle_chunk_size: 1
+data_config:
+  train_data:
+  - type: packed-bin
+    prefix: ''
+    weight: 1
+    data_dir: data/100bt_packed_2049/train
+    scheduler: null
+  val_data:
+  - type: packed-bin
+    prefix: ''
+    weight: 1
+    data_dir: data/100bt_packed_2049/val
+    scheduler: null
+tokenizer_path: tokenizer/parcae_tokenizer
+model_overwrite:
+  block_size: 2048
+  vocab_size: 32768
+  loop_count: 2
+  attnres_block_size: 12
+  attnres_sliding_window: true
+  sw_blocks: 3
+  use_value_embeddings: true
+  attention_dropout: 0.0

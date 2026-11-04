@@ -1,0 +1,53 @@
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Runtime data and outputs are distributed separately.
+/data/
+/tokenizer/*/.cache/
+outputs/
+checkpoints/
+results/
+wandb/
+.runtime/
+
+# Large container archives and common bundles
+*.docker.tar
+*.docker.tar.zst
+*.tar
+*.tar.gz
+*.tar.zst
+*.zst
+
+# Local scheduler/logging files
+*.log
+*.out
+*.err
+slurm-*.out
+.env
+.env.*
+!.env.example
+
+# Editors and OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Container recipes are maintained locally, outside the published codebase.
+/docker/
+
+# Local development tests and experiment records are not published.
+/experiment.md
+/tests/
+/.dockerignore
+/docs/*
+!/docs/data.md
+!/docs/training.md
+!/docs/evaluation.md

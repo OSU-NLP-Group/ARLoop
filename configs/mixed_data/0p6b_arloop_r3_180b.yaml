@@ -1,0 +1,559 @@
+run_name: 0p6b_arloop_r3_180b
+out_dir: outputs/0p6b_arloop_r3_180b
+resume: false
+resume_checkpoint_path: null
+resume_model_only: false
+resume_data_state: true
+resume_wandb_run: false
+resume_use_checkpoint_out_dir: false
+max_tokens: 180000000000
+max_steps: null
+max_flops: null
+token_to_param_ratio: null
+exit_at_step: null
+seed: 42
+model_name: largescale-arloop-0p6b
+model_impl: dynamic
+block_size: 4096
+ignore_block_size_mismatch: false
+model_checkpoint: null
+world_batch_size: 256
+batch_size_ramp: 0
+optimizer: AdamW
+optim_config:
+  lr: 0.003
+  weight_decay: 0.1
+  betas:
+  - 0.9
+  - 0.95
+  eps: 1.0e-08
+grad_clip: 1.0
+warmup_steps: 1000.0
+cooldown_steps: 0.0
+lr_schedule: cosine
+min_lr: 3.0e-05
+no_weight_decay_for_bias_and_norm_params: false
+loss_ignore_index: -100
+label_smoothing: 0.0
+z_regularization: 0.0
+fabric_strategy: ddp
+fabric_precision: bf16-mixed
+fabric_use_lightning_environment: false
+fabric:
+  optimize_communication: false
+  all_reduce_dtype: null
+  ddp_find_unused_parameters: true
+  ddp_static_graph: false
+  ddp_gradient_as_bucket_view: false
+  ddp_bucket_cap_mb: null
+  row_tensor_parallel_size: 1
+  col_tensor_parallel_size: 1
+  depth_tensor_parallel_size: 1
+micro_batch_size: 4
+compile_model: true
+compile_backend: inductor
+compile_mode: default
+compile_fullgraph: false
+compile_dynamic: false
+matmul_precision: high
+dataloader_num_workers: 0
+gradient_checkpointing: false
+allow_nonfinite_loss: false
+compiled_autograd: false
+compile_optimizer: false
+drop_unused_tied_lm_head: false
+dynamo_ddp_config: no_optimization
+skip_nonfinite_grads: true
+fail_instead_of_recompile: false
+logger_name: wandb
+logger_entity: ''
+logger_project: arloop
+logger_group: 0p6b_arloop_r3_180b
+model_telemetry: true
+extreme_telemetry: false
+shape_watching_steps: 3
+log_step_interval: 1
+eval_iters: 16
+eval_num_sequences: 2440
+eval_precision: same
+cache_validation_batches: true
+validation_batch_cache_dir: null
+save_step_interval: 80000
+eval_step_interval: 512
+save_first_step: false
+save_last_step: true
+save_n_min_before_job_done: null
+max_checkpoints_to_keep: null
+measure_utilization: true
+shuffle_filenames: true
+shuffle_blocks: true
+packed_sequence_shuffle_chunk_size: 512
+data_config:
+  train_data:
+  - type: packed-bin
+    prefix: fineweb_edu
+    weight: 8242900
+    data_dir: data/fineweb_edu_700bt_smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 7322336
+    - - 137329
+      - - const
+        - 6127224
+  - type: packed-bin
+    prefix: finemath_3plus
+    weight: 100000
+    data_dir: data/finemath/finemath-3plus/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 100000
+    - - 137329
+      - - const
+        - 20000
+  - type: packed-bin
+    prefix: infiwebmath_3plus
+    weight: 100000
+    data_dir: data/finemath/infiwebmath-3plus/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 100000
+    - - 137329
+      - - const
+        - 20000
+  - type: packed-bin
+    prefix: finemath_4plus
+    weight: 100000
+    data_dir: data/finemath/finemath-4plus/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 544000
+    - - 137329
+      - - const
+        - 250000
+  - type: packed-bin
+    prefix: infiwebmath_4plus
+    weight: 100000
+    data_dir: data/finemath/infiwebmath-4plus/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 256000
+    - - 137329
+      - - const
+        - 200000
+  - type: packed-bin
+    prefix: openmathreasoning
+    weight: 0
+    data_dir: data/openmathreasoning_smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 100000
+  - type: packed-bin
+    prefix: natural_reasoning
+    weight: 0
+    data_dir: data/natural_reasoning/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 101208
+  - type: packed-bin
+    prefix: openmathinstruct2
+    weight: 0
+    data_dir: data/openmathinstruct2/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 565857
+  - type: packed-bin
+    prefix: dolmino_codesearchnet_owmfilter
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/codesearchnet-owmfilter/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 0
+  - type: packed-bin
+    prefix: dolmino_basic_math_synth
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/dolmino_math_synth/basic_math/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 1390
+  - type: packed-bin
+    prefix: dolmino_gsm8k_synth
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/dolmino_math_synth/gsm8k-synth/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 127
+  - type: packed-bin
+    prefix: dolmino_gsm_mind
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/dolmino_math_synth/gsm_mind/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 1910
+  - type: packed-bin
+    prefix: dolmino_gsm8k
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/gsm8k/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 316
+  - type: packed-bin
+    prefix: dolmino_mathcoder2_synthmath
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/mathcoder2-synthmath/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 0
+  - type: packed-bin
+    prefix: dolmino_metamath_owmfilter
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/metamath-owmfilter/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 0
+  - type: packed-bin
+    prefix: dolmino_tinygsm_mind
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/tinyGSM-MIND/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 46996
+  - type: packed-bin
+    prefix: dolmino_personahub_interm_alg
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/tulu_math/personahub_interm_alg/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 0
+  - type: packed-bin
+    prefix: dolmino_personahub_math_grade
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/tulu_math/personahub_math_grade/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 0
+  - type: packed-bin
+    prefix: dolmino_personahub_math_v5
+    weight: 0
+    data_dir: data/dolmino_mix_1124/math/tulu_math/personahub_math_v5/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 0
+  - type: packed-bin
+    prefix: opencodereasoning_split0
+    weight: 0
+    data_dir: data/opencodereasoning/split_0/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 580750
+  - type: packed-bin
+    prefix: opencodereasoning_split1
+    weight: 0
+    data_dir: data/opencodereasoning/split_1/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 0
+    - - 137329
+      - - const
+        - 106715
+  - type: packed-bin
+    prefix: stackexchange_2025_md
+    weight: 200000
+    data_dir: data/stackexchange_2025_md/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 177664
+    - - 137329
+      - - const
+        - 10000
+  - type: packed-bin
+    prefix: kaggle
+    weight: 34017
+    data_dir: data/issues_kaggle_notebooks/kaggle/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 6482
+    - - 137329
+      - - const
+        - 6000
+  - type: packed-bin
+    prefix: stackv2_jupyter
+    weight: 100000
+    data_dir: data/stack_v2_jupyter_20bt/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 100000
+    - - 137329
+      - - const
+        - 150507
+  - type: packed-bin
+    prefix: issues
+    weight: 16905
+    data_dir: data/issues_kaggle_notebooks/issues/smollm2_packed_seq4096_s42/train
+    scheduler:
+    - - 102996
+      - - const
+        - 11854
+    - - 137329
+      - - const
+        - 20000
+  - type: packed-bin
+    prefix: stackedu_python
+    weight: 250000
+    data_dir: data/stack_edu/python/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 421312
+    - - 137329
+      - - const
+        - 799500
+  - type: packed-bin
+    prefix: stackedu_java
+    weight: 172500
+    data_dir: data/stack_edu/java/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 196348
+    - - 137329
+      - - const
+        - 122297
+  - type: packed-bin
+    prefix: stackedu_javascript
+    weight: 125867
+    data_dir: data/stack_edu/javascript/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 184966
+    - - 137329
+      - - const
+        - 122298
+  - type: packed-bin
+    prefix: stackedu_c
+    weight: 70000
+    data_dir: data/stack_edu/c/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 90744
+    - - 137329
+      - - const
+        - 70000
+  - type: packed-bin
+    prefix: stackedu_cpp
+    weight: 145353
+    data_dir: data/stack_edu/cpp/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 204886
+    - - 137329
+      - - const
+        - 258141
+  - type: packed-bin
+    prefix: stackedu_csharp
+    weight: 25358
+    data_dir: data/stack_edu/csharp/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 17781
+    - - 137329
+      - - const
+        - 26500
+  - type: packed-bin
+    prefix: stackedu_php
+    weight: 40000
+    data_dir: data/stack_edu/php/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 45530
+    - - 137329
+      - - const
+        - 41024
+  - type: packed-bin
+    prefix: stackedu_typescript
+    weight: 30000
+    data_dir: data/stack_edu/typescript/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 38890
+    - - 137329
+      - - const
+        - 26000
+  - type: packed-bin
+    prefix: stackedu_swift
+    weight: 10000
+    data_dir: data/stack_edu/swift/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 12963
+    - - 137329
+      - - const
+        - 18000
+  - type: packed-bin
+    prefix: stackedu_sql
+    weight: 60000
+    data_dir: data/stack_edu/sql/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 68296
+    - - 137329
+      - - const
+        - 88240
+  - type: packed-bin
+    prefix: stackedu_ruby
+    weight: 2000
+    data_dir: data/stack_edu/ruby/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 2593
+    - - 137329
+      - - const
+        - 9000
+  - type: packed-bin
+    prefix: stackedu_markdown
+    weight: 61100
+    data_dir: data/stack_edu/markdown/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 79206
+    - - 137329
+      - - const
+        - 44000
+  - type: packed-bin
+    prefix: stackedu_rust
+    weight: 8000
+    data_dir: data/stack_edu/rust/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 10371
+    - - 137329
+      - - const
+        - 9000
+  - type: packed-bin
+    prefix: stackedu_go
+    weight: 5000
+    data_dir: data/stack_edu/go/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 6482
+    - - 137329
+      - - const
+        - 4000
+  - type: packed-bin
+    prefix: stackedu_shell
+    weight: 1000
+    data_dir: data/stack_edu/shell/smollm2_packed_seq4096_source_order/train
+    scheduler:
+    - - 102996
+      - - const
+        - 1296
+    - - 137329
+      - - const
+        - 53000
+  val_data:
+  - type: packed-bin
+    prefix: fineweb_edu_700b_heldout
+    weight: 1
+    data_dir: data/fineweb_edu_700bt_smollm2_concat_heldout_10m_seq4096_s42/val
+    scheduler: null
+tokenizer_path: tokenizer/smollm2_tokenizer
+model_overwrite:
+  block_size: 4096
+  vocab_size: 49152
+  padding_multiple: 64
+  n_embd: 1536
+  n_layer: 18
+  loop_count: 3
+  attnres_block_size: 18
+  attnres_sliding_window: true
+  sw_blocks: 3
+  use_value_embeddings: true
+  cast_value_embeddings_to_residual_dtype: true
+  num_attention_heads: 16
+  num_key_value_heads: 4
+  intermediate_size: 4608
+  tie_embeddings: true
+  qk_norm: true
+  init_strategy: scaled
+  init_orthogonal: false
+  attention_dropout: 0.0
