@@ -3,7 +3,7 @@
 ![ARLoop benchmark results](assets/results.png)
 
 <div align="center" style="line-height: 1; margin-top: 16px;">
-  <a href=""><img src="https://img.shields.io/badge/Paper-B31B1B?style=for-the-badge&logo=arXiv&logoColor=white" alt="Paper"></a>
+  <a href="https://arxiv.org/pdf/2611.05234"><img src="https://img.shields.io/badge/Paper-B31B1B?style=for-the-badge&logo=arXiv&logoColor=white" alt="Paper"></a>
   <a href="https://huggingface.co/osunlp/ARLoop-0.6B"><img src="https://img.shields.io/badge/ARLoop--0.6B-FFD966?style=for-the-badge&logo=huggingface&logoColor=ffffff" alt="ARLoop-0.6B"></a>
   <a href="https://huggingface.co/osunlp/ARLoop-baseline-0.6B"><img src="https://img.shields.io/badge/PreNormLoop--0.6B-FFD966?style=for-the-badge&logo=huggingface&logoColor=ffffff" alt="PreNormLoop-0.6B"></a>
   <a href="https://huggingface.co/osunlp/ARLoop-1.2B"><img src="https://img.shields.io/badge/ARLoop--1.2B-FFD966?style=for-the-badge&logo=huggingface&logoColor=ffffff" alt="ARLoop-1.2B"></a>
