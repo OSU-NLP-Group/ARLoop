@@ -49,7 +49,7 @@ class DataEntry:
     prefix: str
     weight: int = 1
     data_dir: Optional[str] = None
-    scheduler: Optional[list[Any] | tuple[Any, ...]] = None
+    scheduler_ratios: Optional[list[Any] | tuple[Any, ...]] = None
     dataset: Optional[str] = None
     dataset_config: Optional[str] = None
     dataset_split: str = "train"
@@ -309,7 +309,7 @@ class CLISettings:
                 if entry.type == "stream":
                     if not entry.dataset:
                         raise ValueError("stream requires a Hugging Face dataset name")
-                    if entry.data_dir or entry.scheduler is not None:
+                    if entry.data_dir or entry.scheduler_ratios is not None:
                         raise ValueError("stream does not use data_dir or a mixture scheduler")
                     if entry.packing_buffer_size < 1 or entry.shuffle_buffer_size < 0:
                         raise ValueError("Invalid streaming buffer size")

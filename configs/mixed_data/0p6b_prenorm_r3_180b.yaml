@@ -92,450 +92,450 @@ data_config:
   train_data:
   - type: packed-bin
     prefix: fineweb_edu
-    weight: 8242900
+    weight: 0.8243
     data_dir: data/packed/fineweb/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 7322336
-    - - 137329
+        - 0.7322
+    - - 0.8
       - - const
-        - 6127224
+        - 0.6127
   - type: packed-bin
     prefix: finemath_3plus
-    weight: 100000
+    weight: 0.01
     data_dir: data/packed/finemath/finemath_3plus/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 100000
-    - - 137329
+        - 0.01
+    - - 0.8
       - - const
-        - 20000
+        - 0.002
   - type: packed-bin
     prefix: infiwebmath_3plus
-    weight: 100000
+    weight: 0.01
     data_dir: data/packed/finemath/infiwebmath_3plus/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 100000
-    - - 137329
+        - 0.01
+    - - 0.8
       - - const
-        - 20000
+        - 0.002
   - type: packed-bin
     prefix: finemath_4plus
-    weight: 100000
+    weight: 0.01
     data_dir: data/packed/finemath/finemath_4plus/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 544000
-    - - 137329
+        - 0.0544
+    - - 0.8
       - - const
-        - 250000
+        - 0.025
   - type: packed-bin
     prefix: infiwebmath_4plus
-    weight: 100000
+    weight: 0.01
     data_dir: data/packed/finemath/infiwebmath_4plus/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 256000
-    - - 137329
+        - 0.0256
+    - - 0.8
       - - const
-        - 200000
+        - 0.02
   - type: packed-bin
     prefix: openmathreasoning
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/openmathreasoning/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 100000
+        - 0.01
   - type: packed-bin
     prefix: natural_reasoning
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/natural_reasoning/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 101208
+        - 0.0101
   - type: packed-bin
     prefix: openmathinstruct2
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/openmathinstruct2/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 565857
+        - 0.0566
   - type: packed-bin
     prefix: dolmino_codesearchnet_owmfilter
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/codesearchnet_owmfilter/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 0
+        - 0.0
   - type: packed-bin
     prefix: dolmino_basic_math_synth
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/basic_math/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 1390
+        - 0.0001
   - type: packed-bin
     prefix: dolmino_gsm8k_synth
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/gsm8k_synth/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 127
+        - 0.0001
   - type: packed-bin
     prefix: dolmino_gsm_mind
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/gsm_mind/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 1910
+        - 0.0002
   - type: packed-bin
     prefix: dolmino_gsm8k
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/gsm8k/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 316
+        - 0.0001
   - type: packed-bin
     prefix: dolmino_mathcoder2_synthmath
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/mathcoder2_synthmath/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 0
+        - 0.0
   - type: packed-bin
     prefix: dolmino_metamath_owmfilter
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/metamath_owmfilter/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 0
+        - 0.0
   - type: packed-bin
     prefix: dolmino_tinygsm_mind
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/tinygsm_mind/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 46996
+        - 0.0047
   - type: packed-bin
     prefix: dolmino_personahub_interm_alg
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/personahub_interm_alg/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 0
+        - 0.0
   - type: packed-bin
     prefix: dolmino_personahub_math_grade
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/personahub_math_grade/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 0
+        - 0.0
   - type: packed-bin
     prefix: dolmino_personahub_math_v5
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/dolmino/personahub_math_v5/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 0
+        - 0.0
   - type: packed-bin
     prefix: opencodereasoning_split0
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/opencodereasoning/split_0/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 580750
+        - 0.0581
   - type: packed-bin
     prefix: opencodereasoning_split1
-    weight: 0
+    weight: 0.0
     data_dir: data/packed/opencodereasoning/split_1/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 0
-    - - 137329
+        - 0.0
+    - - 0.8
       - - const
-        - 106715
+        - 0.0107
   - type: packed-bin
     prefix: stackexchange_2025_md
-    weight: 200000
+    weight: 0.02
     data_dir: data/packed/stackexchange/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 177664
-    - - 137329
+        - 0.0178
+    - - 0.8
       - - const
-        - 10000
+        - 0.001
   - type: packed-bin
     prefix: kaggle
-    weight: 34017
+    weight: 0.0034
     data_dir: data/packed/issues_kaggle/kaggle/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 6482
-    - - 137329
+        - 0.0007
+    - - 0.8
       - - const
-        - 6000
+        - 0.0006
   - type: packed-bin
     prefix: stackv2_jupyter
-    weight: 100000
+    weight: 0.01
     data_dir: data/packed/jupyter/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 100000
-    - - 137329
+        - 0.01
+    - - 0.8
       - - const
-        - 150507
+        - 0.0151
   - type: packed-bin
     prefix: issues
-    weight: 16905
+    weight: 0.0017
     data_dir: data/packed/issues_kaggle/issues/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 11854
-    - - 137329
+        - 0.0012
+    - - 0.8
       - - const
-        - 20000
+        - 0.002
   - type: packed-bin
     prefix: stackedu_python
-    weight: 250000
+    weight: 0.025
     data_dir: data/packed/stackedu/python/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 421312
-    - - 137329
+        - 0.0421
+    - - 0.8
       - - const
-        - 799500
+        - 0.0799
   - type: packed-bin
     prefix: stackedu_java
-    weight: 172500
+    weight: 0.0173
     data_dir: data/packed/stackedu/java/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 196348
-    - - 137329
+        - 0.0196
+    - - 0.8
       - - const
-        - 122297
+        - 0.0122
   - type: packed-bin
     prefix: stackedu_javascript
-    weight: 125867
+    weight: 0.0126
     data_dir: data/packed/stackedu/javascript/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 184966
-    - - 137329
+        - 0.0185
+    - - 0.8
       - - const
-        - 122298
+        - 0.0122
   - type: packed-bin
     prefix: stackedu_c
-    weight: 70000
+    weight: 0.007
     data_dir: data/packed/stackedu/c/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 90744
-    - - 137329
+        - 0.0091
+    - - 0.8
       - - const
-        - 70000
+        - 0.007
   - type: packed-bin
     prefix: stackedu_cpp
-    weight: 145353
+    weight: 0.0145
     data_dir: data/packed/stackedu/cpp/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 204886
-    - - 137329
+        - 0.0205
+    - - 0.8
       - - const
-        - 258141
+        - 0.0258
   - type: packed-bin
     prefix: stackedu_csharp
-    weight: 25358
+    weight: 0.0025
     data_dir: data/packed/stackedu/csharp/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 17781
-    - - 137329
+        - 0.0018
+    - - 0.8
       - - const
-        - 26500
+        - 0.0026
   - type: packed-bin
     prefix: stackedu_php
-    weight: 40000
+    weight: 0.004
     data_dir: data/packed/stackedu/php/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 45530
-    - - 137329
+        - 0.0046
+    - - 0.8
       - - const
-        - 41024
+        - 0.0041
   - type: packed-bin
     prefix: stackedu_typescript
-    weight: 30000
+    weight: 0.003
     data_dir: data/packed/stackedu/typescript/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 38890
-    - - 137329
+        - 0.0039
+    - - 0.8
       - - const
-        - 26000
+        - 0.0026
   - type: packed-bin
     prefix: stackedu_swift
-    weight: 10000
+    weight: 0.001
     data_dir: data/packed/stackedu/swift/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 12963
-    - - 137329
+        - 0.0013
+    - - 0.8
       - - const
-        - 18000
+        - 0.0018
   - type: packed-bin
     prefix: stackedu_sql
-    weight: 60000
+    weight: 0.006
     data_dir: data/packed/stackedu/sql/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 68296
-    - - 137329
+        - 0.0068
+    - - 0.8
       - - const
-        - 88240
+        - 0.0088
   - type: packed-bin
     prefix: stackedu_ruby
-    weight: 2000
+    weight: 0.0002
     data_dir: data/packed/stackedu/ruby/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 2593
-    - - 137329
+        - 0.0003
+    - - 0.8
       - - const
-        - 9000
+        - 0.0009
   - type: packed-bin
     prefix: stackedu_markdown
-    weight: 61100
+    weight: 0.0061
     data_dir: data/packed/stackedu/markdown/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 79206
-    - - 137329
+        - 0.0079
+    - - 0.8
       - - const
-        - 44000
+        - 0.0044
   - type: packed-bin
     prefix: stackedu_rust
-    weight: 8000
+    weight: 0.0008
     data_dir: data/packed/stackedu/rust/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 10371
-    - - 137329
+        - 0.001
+    - - 0.8
       - - const
-        - 9000
+        - 0.0009
   - type: packed-bin
     prefix: stackedu_go
-    weight: 5000
+    weight: 0.0005
     data_dir: data/packed/stackedu/go/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 6482
-    - - 137329
+        - 0.0006
+    - - 0.8
       - - const
-        - 4000
+        - 0.0004
   - type: packed-bin
     prefix: stackedu_shell
-    weight: 1000
+    weight: 0.0001
     data_dir: data/packed/stackedu/shell/smollm2_seq4096_s42/train
-    scheduler:
-    - - 102996
+    scheduler_ratios:
+    - - 0.6
       - - const
-        - 1296
-    - - 137329
+        - 0.0001
+    - - 0.8
       - - const
-        - 53000
+        - 0.0053
   val_data:
   - type: packed-bin
     prefix: fineweb_edu_700b_heldout
     weight: 1
     data_dir: data/packed/fineweb/heldout_10m/smollm2_seq4096_s42/val
-    scheduler: null
+    scheduler_ratios: null
 tokenizer_path: tokenizer/smollm2_tokenizer
 model_overwrite:
   block_size: 4096

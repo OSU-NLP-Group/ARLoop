@@ -92,13 +92,13 @@ data_config:
     prefix: ''
     weight: 1
     data_dir: data/100bt_packed_2049/train
-    scheduler: null
+    scheduler_ratios: null
   val_data:
   - type: packed-bin
     prefix: ''
     weight: 1
     data_dir: data/100bt_packed_2049/val
-    scheduler: null
+    scheduler_ratios: null
 tokenizer_path: tokenizer/parcae_tokenizer
 model_overwrite:
   block_size: 2048

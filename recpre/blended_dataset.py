@@ -634,8 +634,9 @@ def compile_blend_stages(
 ) -> tuple[BlendStage, ...]:
     """Compile DataEntry piecewise-constant schedulers into global stages.
 
-    A source may keep a static ``weight`` or use the existing scheduler field:
-    ``[[0, ["const", 80]], [1000, ["const", 60]]]``. All source change
+    A source may keep a static ``weight`` or use ``scheduler_ratios``:
+    ``[[0.6, ["const", 0.7]], [0.8, ["const", 0.6]]]``. Ratios are
+    fractions of total optimizer steps, rounded down to step boundaries. All source change
     points are unioned, so every resulting stage has a complete weight vector.
     """
 
@@ -650,7 +651,7 @@ def compile_blend_stages(
     boundaries = {0, int(max_steps)}
     for entry in data_config:
         default_weight = float(entry.weight)
-        scheduler = entry.scheduler
+        scheduler = entry.scheduler_ratios
         if scheduler is None:
             schedules.append([(0, default_weight)])
             continue
@@ -659,36 +660,23 @@ def compile_blend_stages(
             raise ValueError(
                 f"Invalid blend scheduler for source {entry.prefix!r}: {scheduler!r}"
             )
-        if scheduler[0] == "const":
-            if len(scheduler) != 2:
-                raise ValueError(
-                    f"Const blend scheduler for {entry.prefix!r} must have two items"
-                )
-            schedules.append([(0, float(scheduler[1]))])
-            continue
-        if not isinstance(scheduler[0], (list, tuple)):
-            raise ValueError(
-                "Global blended plans only support const or piecewise-const "
-                f"source schedulers, got {scheduler!r} for {entry.prefix!r}"
-            )
-
         source_schedule: list[tuple[int, float]] = [(0, default_weight)]
-        previous_start = -1
+        previous_ratio = -1.0
         for interval in scheduler:
             if not isinstance(interval, (list, tuple)) or len(interval) != 2:
                 raise ValueError(
                     f"Invalid piecewise blend interval for {entry.prefix!r}: {interval!r}"
                 )
-            start, rule = interval
-            start = int(start)
-            if start < 0 or start >= max_steps:
+            ratio, rule = interval
+            if isinstance(ratio, bool) or not isinstance(ratio, (int, float)) or not 0 <= ratio < 1:
                 raise ValueError(
-                    f"Blend stage start must be in [0, {max_steps}), got {start}"
+                    f"Blend stage ratio must be in [0, 1), got {ratio!r}"
                 )
-            if start <= previous_start:
+            if ratio <= previous_ratio:
                 raise ValueError(
-                    f"Blend stage starts must be strictly increasing for {entry.prefix!r}"
+                    f"Blend stage ratios must be strictly increasing for {entry.prefix!r}"
                 )
+            start = int(ratio * max_steps)
             if (
                 not isinstance(rule, (list, tuple))
                 or len(rule) != 2
@@ -698,12 +686,12 @@ def compile_blend_stages(
                     "Global blended plans only support piecewise const rules, "
                     f"got {rule!r} for {entry.prefix!r}"
                 )
-            if start == 0:
-                source_schedule[0] = (0, float(rule[1]))
+            if start == source_schedule[-1][0]:
+                source_schedule[-1] = (start, float(rule[1]))
             else:
                 source_schedule.append((start, float(rule[1])))
             boundaries.add(start)
-            previous_start = start
+            previous_ratio = ratio
         schedules.append(source_schedule)
 
     ordered_boundaries = sorted(boundaries)
@@ -1064,7 +1052,7 @@ def create_blended_dataloader(
             raise ValueError(f"data_dir is required for data source {entry.prefix!r}")
 
     stages: tuple[BlendStage, ...] | None = None
-    if any(entry.scheduler is not None for entry in data_config):
+    if any(entry.scheduler_ratios is not None for entry in data_config):
         stages = compile_blend_stages(
             data_config,
             max_steps=_planned_optimizer_steps(cfg),
