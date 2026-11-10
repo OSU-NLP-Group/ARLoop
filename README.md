@@ -101,12 +101,12 @@ For the controlled FineWeb-Edu pipeline:
 python scripts/data/create_fineweb_edu.py
 ```
 
-This downloads, splits, tokenizes and packs the corpus, then verifies the outputs.
+This downloads, splits, tokenizes and packs the corpus.
 
 For the mixed data sources used for 0.6B and 1.2B experiments:
 
 ```bash
-python scripts/data/create_mix_data.py openmathinstruct2 --stage all
+python scripts/data/create_mix_data.py all
 # List other sources and their options:
 python scripts/data/create_mix_data.py --help
 ```
