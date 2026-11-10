@@ -20,7 +20,8 @@ def main(argv=None):
                 '--output-root', raw, '--cache-dir', a.data_root / '.cache/rehydrate',
                 '--apps-revision', a.apps_revision, '--taco-revision', a.taco_revision])
     raw = base / (f'raw_rehydrated_s{a.seed}' if a.subset == 'split_1' else f'raw_shuffled_s{a.seed}')
-    return prepared_source(a, base, fetch, raw=raw, serializer='input-output')
+    return prepared_source(a, base, fetch, raw=raw, serializer='input-output',
+        source='opencodereasoning', subset=a.subset)
 
 
 if __name__ == "__main__":

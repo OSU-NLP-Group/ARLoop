@@ -10,7 +10,7 @@ def main(argv=None):
             '--download-workers', a.workers, '--load-num-proc', a.workers,
             '--write-workers', a.workers])
     return prepared_source(a, a.data_root / 'stackexchange_2025_md', fetch,
-                          serializer='thread-text')
+                          serializer='thread-text', source='stackexchange')
 
 
 if __name__ == "__main__":

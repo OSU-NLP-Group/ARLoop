@@ -119,7 +119,7 @@ data_config:
     - - 190734
       - - const
         - 6127224
-    data_dir: data/fineweb_edu_700bt_smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/fineweb/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: finemath_3plus
     weight: 100000
@@ -130,7 +130,7 @@ data_config:
     - - 190734
       - - const
         - 20000
-    data_dir: data/finemath/finemath-3plus/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/finemath/finemath_3plus/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: infiwebmath_3plus
     weight: 100000
@@ -141,7 +141,7 @@ data_config:
     - - 190734
       - - const
         - 20000
-    data_dir: data/finemath/infiwebmath-3plus/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/finemath/infiwebmath_3plus/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: finemath_4plus
     weight: 100000
@@ -152,7 +152,7 @@ data_config:
     - - 190734
       - - const
         - 250000
-    data_dir: data/finemath/finemath-4plus/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/finemath/finemath_4plus/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: infiwebmath_4plus
     weight: 100000
@@ -163,7 +163,7 @@ data_config:
     - - 190734
       - - const
         - 200000
-    data_dir: data/finemath/infiwebmath-4plus/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/finemath/infiwebmath_4plus/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: openmathreasoning
     weight: 0
@@ -174,7 +174,7 @@ data_config:
     - - 190734
       - - const
         - 100000
-    data_dir: data/openmathreasoning_smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/openmathreasoning/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: natural_reasoning
     weight: 0
@@ -185,7 +185,7 @@ data_config:
     - - 190734
       - - const
         - 101208
-    data_dir: data/natural_reasoning/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/natural_reasoning/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: openmathinstruct2
     weight: 0
@@ -196,7 +196,7 @@ data_config:
     - - 190734
       - - const
         - 565857
-    data_dir: data/openmathinstruct2/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/openmathinstruct2/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: dolmino_basic_math_synth
     weight: 0
@@ -207,7 +207,7 @@ data_config:
     - - 190734
       - - const
         - 1390
-    data_dir: data/dolmino_mix_1124/math/dolmino_math_synth/basic_math/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/dolmino/basic_math/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: dolmino_gsm8k_synth
     weight: 0
@@ -218,7 +218,7 @@ data_config:
     - - 190734
       - - const
         - 127
-    data_dir: data/dolmino_mix_1124/math/dolmino_math_synth/gsm8k-synth/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/dolmino/gsm8k_synth/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: dolmino_gsm_mind
     weight: 0
@@ -229,7 +229,7 @@ data_config:
     - - 190734
       - - const
         - 1910
-    data_dir: data/dolmino_mix_1124/math/dolmino_math_synth/gsm_mind/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/dolmino/gsm_mind/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: dolmino_gsm8k
     weight: 0
@@ -240,7 +240,7 @@ data_config:
     - - 190734
       - - const
         - 316
-    data_dir: data/dolmino_mix_1124/math/gsm8k/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/dolmino/gsm8k/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: dolmino_tinygsm_mind
     weight: 0
@@ -251,7 +251,7 @@ data_config:
     - - 190734
       - - const
         - 46996
-    data_dir: data/dolmino_mix_1124/math/tinyGSM-MIND/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/dolmino/tinygsm_mind/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: opencodereasoning_split0
     weight: 0
@@ -262,7 +262,7 @@ data_config:
     - - 190734
       - - const
         - 580750
-    data_dir: data/opencodereasoning/split_0/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/opencodereasoning/split_0/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: opencodereasoning_split1
     weight: 0
@@ -273,7 +273,7 @@ data_config:
     - - 190734
       - - const
         - 106715
-    data_dir: data/opencodereasoning/split_1/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/opencodereasoning/split_1/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackexchange_2025_md
     weight: 200000
@@ -284,7 +284,7 @@ data_config:
     - - 190734
       - - const
         - 10000
-    data_dir: data/stackexchange_2025_md/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/stackexchange/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: kaggle
     weight: 34017
@@ -295,7 +295,7 @@ data_config:
     - - 190734
       - - const
         - 6000
-    data_dir: data/issues_kaggle_notebooks/kaggle/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/issues_kaggle/kaggle/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackv2_jupyter
     weight: 100000
@@ -306,7 +306,7 @@ data_config:
     - - 190734
       - - const
         - 150507
-    data_dir: data/stack_v2_jupyter_20bt/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/jupyter/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: issues
     weight: 16905
@@ -317,7 +317,7 @@ data_config:
     - - 190734
       - - const
         - 20000
-    data_dir: data/issues_kaggle_notebooks/issues/smollm2_packed_seq4096_s42/train
+    data_dir: data/packed/issues_kaggle/issues/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_python
     weight: 325000
@@ -328,7 +328,7 @@ data_config:
     - - 190734
       - - const
         - 799500
-    data_dir: data/stack_edu/python/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/python/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_java
     weight: 148706
@@ -339,7 +339,7 @@ data_config:
     - - 190734
       - - const
         - 122297
-    data_dir: data/stack_edu/java/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/java/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_javascript
     weight: 108505
@@ -350,7 +350,7 @@ data_config:
     - - 190734
       - - const
         - 122298
-    data_dir: data/stack_edu/javascript/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/javascript/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_c
     weight: 70000
@@ -361,7 +361,7 @@ data_config:
     - - 190734
       - - const
         - 70000
-    data_dir: data/stack_edu/c/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/c/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_cpp
     weight: 125303
@@ -372,7 +372,7 @@ data_config:
     - - 190734
       - - const
         - 258141
-    data_dir: data/stack_edu/cpp/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/cpp/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_csharp
     weight: 25358
@@ -383,7 +383,7 @@ data_config:
     - - 190734
       - - const
         - 26500
-    data_dir: data/stack_edu/csharp/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/csharp/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_php
     weight: 34482
@@ -394,7 +394,7 @@ data_config:
     - - 190734
       - - const
         - 41024
-    data_dir: data/stack_edu/php/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/php/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_typescript
     weight: 30000
@@ -405,7 +405,7 @@ data_config:
     - - 190734
       - - const
         - 26000
-    data_dir: data/stack_edu/typescript/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/typescript/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_swift
     weight: 10000
@@ -416,7 +416,7 @@ data_config:
     - - 190734
       - - const
         - 18000
-    data_dir: data/stack_edu/swift/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/swift/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_sql
     weight: 51724
@@ -427,7 +427,7 @@ data_config:
     - - 190734
       - - const
         - 88240
-    data_dir: data/stack_edu/sql/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/sql/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_ruby
     weight: 2000
@@ -438,7 +438,7 @@ data_config:
     - - 190734
       - - const
         - 9000
-    data_dir: data/stack_edu/ruby/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/ruby/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_markdown
     weight: 61100
@@ -449,7 +449,7 @@ data_config:
     - - 190734
       - - const
         - 44000
-    data_dir: data/stack_edu/markdown/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/markdown/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_rust
     weight: 8000
@@ -460,7 +460,7 @@ data_config:
     - - 190734
       - - const
         - 9000
-    data_dir: data/stack_edu/rust/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/rust/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_go
     weight: 5000
@@ -471,7 +471,7 @@ data_config:
     - - 190734
       - - const
         - 4000
-    data_dir: data/stack_edu/go/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/go/smollm2_seq4096_s42/train
   - type: packed-bin
     prefix: stackedu_shell
     weight: 1000
@@ -482,10 +482,10 @@ data_config:
     - - 190734
       - - const
         - 53000
-    data_dir: data/stack_edu/shell/smollm2_packed_seq4096_source_order/train
+    data_dir: data/packed/stackedu/shell/smollm2_seq4096_s42/train
   val_data:
   - type: packed-bin
     prefix: fineweb_edu_val
     weight: 1
-    data_dir: data/fineweb_edu_700bt_smollm2_concat_heldout_10m_seq4096_s42/val
+    data_dir: data/packed/fineweb/heldout_10m/smollm2_seq4096_s42/val
 tokenizer_path: tokenizer/smollm2_tokenizer

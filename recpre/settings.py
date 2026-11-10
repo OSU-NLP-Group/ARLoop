@@ -45,11 +45,18 @@ class HuggingfaceConfig:
 
 @dataclass
 class DataEntry:
-    type: Literal["packed-bin"]
+    type: Literal["packed-bin", "stream"]
     prefix: str
     weight: int = 1
     data_dir: Optional[str] = None
     scheduler: Optional[list[Any] | tuple[Any, ...]] = None
+    dataset: Optional[str] = None
+    dataset_config: Optional[str] = None
+    dataset_split: str = "train"
+    text_column: str = "text"
+    data_files: Optional[list[str]] = None
+    packing_buffer_size: int = 1000
+    shuffle_buffer_size: int = 0
 
 
 @dataclass
@@ -276,14 +283,14 @@ class CLISettings:
                 and not isinstance(self.save_optimizer_step_interval, bool)
                 and self.save_optimizer_step_interval > 0
             ), "save_optimizer_step_interval must be a positive integer or null"
-        uses_packed_binary = any(
-            entry.type == "packed-bin"
+        uses_stateful_rows = any(
+            entry.type in {"packed-bin", "stream"}
             for entries in self.data_config.values()
             for entry in entries
         )
-        if uses_packed_binary:
+        if uses_stateful_rows:
             assert self.dataloader_num_workers == 0, (
-                "packed-bin currently requires dataloader_num_workers=0 so each "
+                "Training data currently requires dataloader_num_workers=0 so each "
                 "DDP rank has exactly one stateful iterator"
             )
         if self.eval_num_sequences is not None:
@@ -299,6 +306,14 @@ class CLISettings:
     def _expand_paths(self):
         for entries in self.data_config.values():
             for entry in entries:
+                if entry.type == "stream":
+                    if not entry.dataset:
+                        raise ValueError("stream requires a Hugging Face dataset name")
+                    if entry.data_dir or entry.scheduler is not None:
+                        raise ValueError("stream does not use data_dir or a mixture scheduler")
+                    if entry.packing_buffer_size < 1 or entry.shuffle_buffer_size < 0:
+                        raise ValueError("Invalid streaming buffer size")
+                    continue
                 if not entry.data_dir:
                     raise ValueError(f"data_dir is required for data source {entry.prefix!r}")
                 if entry.data_dir is not None:

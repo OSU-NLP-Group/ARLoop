@@ -91,8 +91,8 @@ def plan_path(output_root: Path) -> Path:
     return output_root / "packing_plan.json"
 
 
-def lane_output_path(output_root: Path, lane_id: int, num_lanes: int) -> Path:
-    return output_root / "train" / f"lane-{lane_id:03d}-of-{num_lanes:03d}.bin"
+def lane_output_path(output_root: Path, lane_id: int, num_lanes: int, split: str = "train") -> Path:
+    return output_root / split / f"lane-{lane_id:03d}-of-{num_lanes:03d}.bin"
 
 
 def lane_stats_path(output_root: Path, lane_id: int, num_lanes: int) -> Path:
@@ -133,7 +133,7 @@ def build_plan(args: argparse.Namespace) -> dict:
         lane["num_lanes"] = len(lanes)
         lane["output_path"] = str(
             lane_output_path(
-                args.output_root, lane["lane_id"], lane["num_lanes"]
+                args.output_root, lane["lane_id"], lane["num_lanes"], getattr(args, "split", "train")
             ).resolve()
         )
     payload = {
@@ -496,6 +496,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--split", choices=("train", "val"), default="train")
     parser.add_argument("--capacity", type=int, default=4097)
     parser.add_argument("--target-output-tokens", type=int, default=30_000_000_000)
     commands = parser.add_subparsers(dest="command", required=True)

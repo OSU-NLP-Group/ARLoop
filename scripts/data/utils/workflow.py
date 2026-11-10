@@ -8,6 +8,7 @@ from .pipeline import ROOT, convert_files, pack_source, run
 
 def parser(description, *, subsets=(), revision=None):
     p = argparse.ArgumentParser(description=description)
+    p.add_argument('--dry-run', action='store_true', help='Validate options without preparing data')
     p.add_argument('--stage', choices=['all', 'fetch', 'tokenize', 'pack'], default='all',
                    help='fetch downloads and establishes the source document order')
     if subsets:
@@ -28,6 +29,8 @@ def parse(p, argv):
     a = p.parse_args(argv)
     for key in ('data_root', 'tokenizer_path'):
         setattr(a, key, getattr(a, key).resolve())
+    if a.stage in ('all', 'tokenize') and not a.tokenizer_path.is_dir():
+        p.error(f'Tokenizer directory does not exist: {a.tokenizer_path}')
     if a.workers < 1 or a.num_shards < 1:
         p.error('--workers and --num-shards must be positive')
     if a.target_output_tokens is not None and a.target_output_tokens < 4097:
@@ -63,13 +66,24 @@ def text_fetch(a, raw, repo, patterns, serializer='text'):
     run('download_shuffle_text_dataset', options)
 
 
-def prepared_source(a, base, fetch, *, serializer='text', raw=None,
+def packed_path(a, source, subset=None):
+    """Return the common packed-output location for a mixture source."""
+    path = a.data_root / 'packed' / source
+    if subset is not None:
+        path /= subset.lower().replace('-', '_')
+    return path / f'smollm2_seq4096_s{a.seed}'
+
+
+def prepared_source(a, base, fetch, *, source, subset=None, serializer='text', raw=None,
                     token_kind='curated', source_manifest=None, language=None,
-                    target_source_tokens=None, packed=None):
+                    selection_options=()):
     """Execute one source workflow, reusing completed outputs on continuation."""
     raw = raw or base / f'raw_shuffled_s{a.seed}'
     tokens = base / f'smollm2_tokenized_eos_s{a.seed}'
-    packed = packed or base / f'smollm2_packed_seq4096_s{a.seed}'
+    packed = packed_path(a, source, subset)
+    if a.dry_run:
+        print(f'{base}: {a.stage} -> {packed}', flush=True)
+        return packed
     if a.stage in ('all', 'fetch') and not complete(raw):
         fetch(raw)
     if a.stage in ('all', 'tokenize') and not complete(tokens):
@@ -81,7 +95,7 @@ def prepared_source(a, base, fetch, *, serializer='text', raw=None,
                           '--source-manifest', source_manifest, '--language', language])
         elif token_kind == 'fineweb':
             run('prepare_smol_tokenized_shuffled_prefix', [*options, 'plan',
-                '--target-source-tokens', target_source_tokens])
+                *selection_options])
             convert_files('prepare_smol_tokenized_shuffled_prefix', options, 'plan-count')
         else:
             convert_files('tokenize_curated_datasets_smollm2', [*options, '--serializer', serializer])

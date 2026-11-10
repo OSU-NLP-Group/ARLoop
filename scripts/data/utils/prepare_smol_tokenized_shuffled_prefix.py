@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Tokenize a globally shuffled FineWeb-Edu prefix with EOS-only boundaries.
+"""Tokenize shuffled FineWeb-Edu documents with EOS-only boundaries.
 
-The prefix is defined by the raw FineWeb-Edu ``token_count`` column in global
-shuffle order. Whole documents are selected until the requested source-token
-target is reached; the final included document may overshoot the target. Text
-is encoded with ``add_special_tokens=False`` and exactly one tokenizer EOS ID
-is appended to every document. No BOS or padding token is added.
+An optional source-token target selects a whole-document prefix for validation.
+Without a target, all documents are selected; --exclude-plan removes the reserved
+validation prefix while retaining the remainder of its boundary bucket.
 """
 
 from __future__ import annotations
@@ -86,10 +84,21 @@ def boundary_prefix(path: Path, requested_tokens: int) -> tuple[int, int]:
 def build_plan(args: argparse.Namespace) -> dict:
     shuffle_manifest = load_shuffle_manifest(args.source_root)
     num_buckets = int(shuffle_manifest["num_buckets"])
+    excluded = {}
+    if getattr(args, "exclude_plan", None):
+        heldout = json.loads(args.exclude_plan.read_text())
+        if Path(heldout["source_root"]).resolve() != args.source_root.resolve():
+            raise ValueError("Excluded plan must refer to the same shuffled source")
+        if args.target_source_tokens is not None:
+            raise ValueError("Use exclusion only when selecting all remaining documents")
+        excluded = {entry["bucket_id"]: entry for entry in heldout["files"]}
     selected = []
     source_tokens = 0
     documents = 0
-    for bucket_id in range(num_buckets):
+    start_bucket = getattr(args, "start_bucket", 0)
+    if not 0 <= start_bucket < num_buckets:
+        raise ValueError("start-bucket must select an existing shuffle bucket")
+    for bucket_id in range(start_bucket, num_buckets):
         stats_path = bucket_stats_path(args.source_root, bucket_id)
         stats = json.loads(stats_path.read_text())
         source_path = Path(stats["output_path"])
@@ -97,7 +106,18 @@ def build_plan(args: argparse.Namespace) -> dict:
             raise FileNotFoundError(source_path)
         bucket_tokens = int(stats["token_count"])
         bucket_documents = int(stats["documents"])
-        if source_tokens + bucket_tokens <= args.target_source_tokens:
+        skip = excluded.get(bucket_id, {})
+        skip_documents = int(skip.get("selected_documents", 0))
+        skip_tokens = int(skip.get("selected_source_tokens", 0))
+        if skip_documents > bucket_documents or skip_tokens > bucket_tokens:
+            raise ValueError("Excluded prefix exceeds the source bucket")
+        if skip_documents == bucket_documents:
+            continue
+        if args.target_source_tokens is None:
+            selected_documents = bucket_documents - skip_documents
+            selected_tokens = bucket_tokens - skip_tokens
+            partial = skip_documents > 0
+        elif source_tokens + bucket_tokens <= args.target_source_tokens:
             selected_documents = bucket_documents
             selected_tokens = bucket_tokens
             partial = False
@@ -115,6 +135,7 @@ def build_plan(args: argparse.Namespace) -> dict:
                 "source_filename": source_path.name,
                 "source_file_size_bytes": source_path.stat().st_size,
                 "source_file_documents": bucket_documents,
+                "skip_documents": skip_documents,
                 "selected_documents": selected_documents,
                 "selected_source_tokens": selected_tokens,
                 "partial": partial,
@@ -122,9 +143,11 @@ def build_plan(args: argparse.Namespace) -> dict:
         )
         source_tokens += selected_tokens
         documents += selected_documents
-        if source_tokens >= args.target_source_tokens:
+        if args.target_source_tokens is not None and source_tokens >= args.target_source_tokens:
             break
-    if source_tokens < args.target_source_tokens:
+    if not selected:
+        raise ValueError("No training documents remain after validation exclusion")
+    if args.target_source_tokens is not None and source_tokens < args.target_source_tokens:
         raise ValueError(
             f"Dataset has only {source_tokens:,} source tokens, below requested "
             f"{args.target_source_tokens:,}"
@@ -132,7 +155,7 @@ def build_plan(args: argparse.Namespace) -> dict:
 
     core = {
         "version": 1,
-        "selection": "global-shuffle-prefix-by-source-token_count-document-boundary",
+        "selection": "all-remaining-documents" if args.target_source_tokens is None else "global-shuffle-prefix-by-source-token_count-document-boundary",
         "source_root": str(args.source_root.resolve()),
         "shuffle_seed": shuffle_manifest["seed"],
         "shuffle_num_buckets": num_buckets,
@@ -262,6 +285,7 @@ def convert_file(args: argparse.Namespace) -> dict:
     )
     source_file = pq.ParquetFile(source_path)
     remaining_documents = int(entry["selected_documents"])
+    remaining_skip = int(entry.get("skip_documents", 0))
     documents = 0
     source_tokens = 0
     tokens_without_eos = 0
@@ -280,13 +304,15 @@ def convert_file(args: argparse.Namespace) -> dict:
         for row_group_index in range(source_file.num_row_groups):
             if remaining_documents <= 0:
                 break
-            take_rows = min(
-                remaining_documents,
-                source_file.metadata.row_group(row_group_index).num_rows,
-            )
+            group_rows = source_file.metadata.row_group(row_group_index).num_rows
+            skip_rows = min(remaining_skip, group_rows)
+            remaining_skip -= skip_rows
+            if skip_rows == group_rows:
+                continue
+            take_rows = min(remaining_documents, group_rows - skip_rows)
             table = source_file.read_row_group(
                 row_group_index, columns=["text", "token_count"]
-            ).slice(0, take_rows)
+            ).slice(skip_rows, take_rows)
             texts = table.column("text").to_pylist()
             if any(not isinstance(text, str) for text in texts):
                 raise TypeError(f"Non-string text in {source_path}")
@@ -482,7 +508,9 @@ def parse_args() -> argparse.Namespace:
     commands = parser.add_subparsers(dest="command", required=True)
 
     plan = commands.add_parser("plan")
-    plan.add_argument("--target-source-tokens", type=int, default=700_000_000_000)
+    plan.add_argument("--start-bucket", type=int, default=0)
+    plan.add_argument("--target-source-tokens", type=int, default=None)
+    plan.add_argument("--exclude-plan", type=Path, help="Exclude the held-out document prefix")
     plan.set_defaults(func=build_plan)
 
     count = commands.add_parser("plan-count")

@@ -24,15 +24,12 @@ for _name, _path in _RUNTIME_PATHS.items():
     _path.parent.mkdir(parents=True, exist_ok=True)
     if _name != "TORCHELASTIC_ERROR_FILE":
         _path.mkdir(parents=True, exist_ok=True)
-    if _name == "TORCHELASTIC_ERROR_FILE":
-        os.environ.setdefault(_name, str(_path))
-    else:
-        os.environ[_name] = str(_path)
+    os.environ.setdefault(_name, str(_path))
 os.environ.setdefault("WANDB_MODE", "offline")
 os.environ["WANDB_ERROR_REPORTING"] = "false"
-os.environ["HF_HUB_OFFLINE"] = "1"
-os.environ["HF_DATASETS_OFFLINE"] = "1"
-os.environ["TRANSFORMERS_OFFLINE"] = "1"
+os.environ.setdefault("HF_HUB_OFFLINE", "0")
+os.environ.setdefault("HF_DATASETS_OFFLINE", "0")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "0")
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
@@ -862,9 +859,26 @@ def log_step(
 
 
 def create_dataloader(data_config, batch_size, block_size, fabric, seed=1337, *, cfg, tokenizer, stateful=True):
-    """Use a global blend for multiple training sources, otherwise one packed reader."""
+    """Build a packed or streaming reader, blending multiple packed training sources."""
     if not data_config:
         raise ValueError("No data sources configured")
+    if any(entry.type == "stream" for entry in data_config):
+        if len(data_config) != 1:
+            raise ValueError("stream requires exactly one source per train/validation loader")
+        if cfg.dataloader_num_workers != 0:
+            raise ValueError("stream requires dataloader_num_workers=0")
+        from recpre.streaming_dataset import StreamingPackedDataset, streaming_source
+        entry = data_config[0]
+        source = streaming_source(entry.dataset, dataset_config=entry.dataset_config,
+            dataset_split=entry.dataset_split, data_files=entry.data_files, text_column=entry.text_column,
+            seed=cfg.seed, world_size=fabric.world_size, rank=fabric.global_rank)
+        dataset = StreamingPackedDataset(source, tokenizer, block_size=cfg.loader_block_size,
+            buffer_size=entry.packing_buffer_size, shuffle_buffer_size=entry.shuffle_buffer_size,
+            seed=cfg.seed, source_id=(entry.dataset, entry.dataset_config, entry.dataset_split,
+                                      entry.data_files, entry.text_column), stateful=stateful)
+        loader_class = StatefulDataLoader if stateful else DataLoader
+        return loader_class(dataset, batch_size=batch_size, num_workers=0,
+            pin_memory=True, collate_fn=partial(collate_packed_rows, tokenizer=tokenizer))
     if any(entry.type != "packed-bin" or not entry.data_dir for entry in data_config):
         raise ValueError("Every data source must be packed-bin with a data_dir")
     if stateful and len(data_config) > 1:
@@ -1053,6 +1067,10 @@ def main():
         fabric.print(f"Training interrupted: {e}. Saving emergency checkpoint...")
         maybe_save_checkpoint(fabric, state, cfg, is_accumulating=False, force_save=True)
         raise
+    finally:
+        close_dataset = getattr(state["train_dataloader"].dataset, "close", None)
+        if close_dataset is not None:
+            close_dataset()
 
     fabric.print("--------------------------------------------------------------------")
     fabric.print(f"Training time: {str(datetime.timedelta(seconds=time.time() - train_time))} ")

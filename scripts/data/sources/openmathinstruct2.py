@@ -6,7 +6,7 @@ def main(argv=None):
     a = parse(parser(__doc__, revision='469216e3f46f4dacf476b382e192485ea51a143e'), argv)
     return prepared_source(a, a.data_root / 'openmathinstruct2',
         lambda raw: hf_fetch(a, raw, 'nvidia/OpenMathInstruct-2'),
-        serializer='problem-generated-solution')
+        serializer='problem-generated-solution', source='openmathinstruct2')
 
 
 if __name__ == "__main__":

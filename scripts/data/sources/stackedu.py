@@ -20,8 +20,7 @@ def main(argv=None):
                 a.num_lanes, a.workers, '--num-proc')
     return prepared_source(a, a.data_root / 'stack_edu' / a.subset, fetch,
         raw=downloaded / 'parquet' / a.subset, token_kind='stackedu',
-        source_manifest=downloaded / 'manifest.json', language=a.subset,
-        packed=a.data_root / 'stack_edu' / a.subset / 'smollm2_packed_seq4096_source_order')
+        source_manifest=downloaded / 'manifest.json', language=a.subset, source='stackedu', subset=a.subset)
 
 
 if __name__ == "__main__":

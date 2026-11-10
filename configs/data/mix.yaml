@@ -1,0 +1,32 @@
+# Shared options may be overridden on the command line.
+defaults:
+  revision: main
+  seed: 42
+  workers: 8
+  num_shards: 128
+sources:
+  - source: fineweb
+    revision: 87f09149ef4734204d70ed1d046ddc9ca3f2b8f9
+    validation_tokens: 10000000
+    validation_source_tokens: 20000000
+  - source: finemath
+    subsets: [finemath-3plus, infiwebmath-3plus, finemath-4plus, infiwebmath-4plus]
+  - source: dolmino
+    subsets: [basic_math, gsm8k-synth, gsm_mind, gsm8k, tinyGSM-MIND]
+  - source: openmathinstruct2
+    revision: 469216e3f46f4dacf476b382e192485ea51a143e
+  - source: openmathreasoning
+    revision: d3d08664755704f422af97d43a7ff0ded4bd95df
+  - source: natural_reasoning
+  - source: opencodereasoning
+    subsets: [split_0, split_1]
+    apps_revision: main
+    taco_revision: main
+  - source: stackexchange
+    revision: fe382c48856f4eae5d8402cd4aa9be55ee1e1ee0
+  - source: issues_kaggle
+    subsets: [issues, kaggle]
+  - source: jupyter
+    revision: e565caa3a78c2423bd374333a472b049eb090e47
+  - source: stackedu
+    subsets: [python, java, javascript, c, cpp, csharp, php, typescript, swift, sql, ruby, markdown, rust, go, shell]

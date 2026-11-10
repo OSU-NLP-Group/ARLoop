@@ -1,4 +1,5 @@
 """Materialize and persist repeatable validation batches."""
+from contextlib import contextmanager
 import fcntl
 import os
 from pathlib import Path
@@ -14,19 +15,29 @@ def rank_sequence_budget(total_sequences: int, rank: int, world_size: int) -> in
     return base + int(rank < remainder)
 
 
+@contextmanager
+def _validation_iterator(dataloader):
+    try:
+        yield iter(dataloader)
+    finally:
+        close = getattr(dataloader.dataset, "close", None)
+        if close is not None:
+            close()
+
+
 def _materialize_validation_batches(
     dataloader, eval_iters: int
 ) -> list[tuple[torch.Tensor, torch.Tensor]]:
     batches = []
-    iterator = iter(dataloader)
-    for batch_index in range(eval_iters):
-        try:
-            input_ids, labels, _ = next(iterator)
-        except StopIteration as exc:
-            raise RuntimeError(
-                f"Validation dataloader exhausted after {batch_index} of {eval_iters} requested batches"
-            ) from exc
-        batches.append((input_ids, labels))
+    with _validation_iterator(dataloader) as iterator:
+        for batch_index in range(eval_iters):
+            try:
+                input_ids, labels, _ = next(iterator)
+            except StopIteration as exc:
+                raise RuntimeError(
+                    f"Validation dataloader exhausted after {batch_index} of {eval_iters} requested batches"
+                ) from exc
+            batches.append((input_ids, labels))
     return batches
 
 
@@ -36,20 +47,20 @@ def _materialize_validation_sequences(
     input_batches = []
     label_batches = []
     remaining = num_sequences
-    iterator = iter(dataloader)
-    while remaining > 0:
-        try:
-            input_ids, labels, _ = next(iterator)
-        except StopIteration as exc:
-            materialized = num_sequences - remaining
-            raise RuntimeError(
-                f"Validation dataloader exhausted after {materialized} of "
-                f"{num_sequences} requested sequences"
-            ) from exc
-        take = min(remaining, input_ids.shape[0])
-        input_batches.append(input_ids[:take])
-        label_batches.append(labels[:take])
-        remaining -= take
+    with _validation_iterator(dataloader) as iterator:
+        while remaining > 0:
+            try:
+                input_ids, labels, _ = next(iterator)
+            except StopIteration as exc:
+                materialized = num_sequences - remaining
+                raise RuntimeError(
+                    f"Validation dataloader exhausted after {materialized} of "
+                    f"{num_sequences} requested sequences"
+                ) from exc
+            take = min(remaining, input_ids.shape[0])
+            input_batches.append(input_ids[:take])
+            label_batches.append(labels[:take])
+            remaining -= take
     return torch.cat(input_batches), torch.cat(label_batches)
 
 

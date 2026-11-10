@@ -9,8 +9,7 @@ def main(argv=None):
             '--output-root', raw, '--seed', a.seed, '--num-shards', a.num_shards,
             '--download-num-proc', a.workers, '--write-workers', a.workers])
     return prepared_source(a, a.data_root / 'openmathreasoning', fetch,
-        serializer='problem-generated-solution',
-        packed=a.data_root / f'openmathreasoning_smollm2_packed_seq4096_s{a.seed}')
+        serializer='problem-generated-solution', source='openmathreasoning')
 
 
 if __name__ == "__main__":

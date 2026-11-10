@@ -15,7 +15,7 @@ def main(argv=None):
             '--cache-root', a.data_root / '.cache/jupyter', '--seed', a.seed,
             '--num-lanes', a.num_lanes, '--metadata-num-proc', a.workers],
             a.num_lanes, a.workers, '--download-workers')
-    return prepared_source(a, base, fetch)
+    return prepared_source(a, base, fetch, source='jupyter')
 
 
 if __name__ == "__main__":

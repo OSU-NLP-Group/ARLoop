@@ -14,7 +14,8 @@ def main(argv=None):
     a = parse(parser(__doc__, subsets=tuple(SUBSETS)), argv)
     path = SUBSETS[a.subset]
     return prepared_source(a, a.data_root / 'dolmino_mix_1124' / path,
-        lambda raw: text_fetch(a, raw, 'allenai/dolmino-mix-1124', ['data/' + path + '/*']))
+        lambda raw: text_fetch(a, raw, 'allenai/dolmino-mix-1124', ['data/' + path + '/*']),
+        source='dolmino', subset=a.subset)
 
 
 if __name__ == "__main__":

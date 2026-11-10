@@ -7,7 +7,8 @@ SUBSETS = ('finemath-3plus', 'finemath-4plus', 'infiwebmath-3plus', 'infiwebmath
 def main(argv=None):
     a = parse(parser(__doc__, subsets=SUBSETS), argv)
     return prepared_source(a, a.data_root / 'finemath' / a.subset,
-        lambda raw: hf_fetch(a, raw, 'HuggingFaceTB/finemath', config=a.subset))
+        lambda raw: hf_fetch(a, raw, 'HuggingFaceTB/finemath', config=a.subset),
+        source='finemath', subset=a.subset)
 
 
 if __name__ == "__main__":
